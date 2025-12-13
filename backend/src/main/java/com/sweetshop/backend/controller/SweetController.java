@@ -38,4 +38,9 @@ public class SweetController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @PutMapping("/sweets/{id}")
+    public ResponseEntity<Sweet> updateSweet(@PathVariable Long id, @RequestBody Sweet sweetDetails) {
+        Sweet updatedSweet = sweetService.updateSweet(id, sweetDetails);
+        return new ResponseEntity<>(updatedSweet, HttpStatus.OK);
+    }
 }
