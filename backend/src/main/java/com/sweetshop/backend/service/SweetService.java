@@ -24,4 +24,8 @@ public class SweetService {
         return sweetRepository.searchSweets(name, category, minPrice, maxPrice);
     }
 
+    public Sweet updateSweet(Long id, Sweet sweetDetails) {
+        return null;
+    }
+
 }
