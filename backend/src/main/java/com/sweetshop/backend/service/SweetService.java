@@ -45,4 +45,8 @@ public class SweetService {
         sweetRepository.deleteById(id);
     }
 
+    public Sweet purchaseSweet(Long id) {
+        return null;
+    }
+
 }

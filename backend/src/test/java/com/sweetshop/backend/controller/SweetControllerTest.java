@@ -126,4 +126,20 @@ public class SweetControllerTest {
 
         org.mockito.Mockito.verify(sweetService).deleteSweet(1L);
     }
+
+    @Test
+    public void testPurchaseSweet_Success() throws Exception {
+
+        Sweet sweetAfterPurchase = new Sweet();
+        sweetAfterPurchase.setId(1L);
+        sweetAfterPurchase.setName("Mysore Pak");
+        sweetAfterPurchase.setQuantity(9);
+
+        when(sweetService.purchaseSweet(1L)).thenReturn(sweetAfterPurchase);
+
+        mockMvc.perform(post("/api/sweets/{id}/purchase", 1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.quantity").value(9));
+    }
 }
