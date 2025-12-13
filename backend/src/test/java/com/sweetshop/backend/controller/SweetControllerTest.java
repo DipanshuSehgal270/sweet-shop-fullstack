@@ -33,6 +33,7 @@ public class SweetControllerTest {
 
     @Test
     public void testCreateSweet_Success() throws Exception {
+
         Sweet sweet = new Sweet();
         sweet.setName("Kaju Katli");
         sweet.setPrice(100.0);
@@ -53,7 +54,7 @@ public class SweetControllerTest {
 
     @Test
     public void testGetAllSweets_Success() throws Exception {
-        // 1. Arrange
+
         Sweet s1 = new Sweet();
         s1.setId(1L);
         s1.setName("Ladoo");
@@ -75,7 +76,7 @@ public class SweetControllerTest {
 
     @Test
     public void testSearchSweets_Complex() throws Exception {
-        // 1. Arrange
+
         Sweet s1 = new Sweet();
         s1.setName("Rasgulla");
         s1.setCategory("Milk Based");
@@ -97,7 +98,7 @@ public class SweetControllerTest {
 
     @Test
     public void testUpdateSweet_Success() throws Exception {
-        // 1. Arrange
+
         Sweet updatedInfo = new Sweet();
         updatedInfo.setName("Kaju Katli Special");
         updatedInfo.setPrice(120.0);
@@ -107,15 +108,22 @@ public class SweetControllerTest {
         resultSweet.setName("Kaju Katli Special");
         resultSweet.setPrice(120.0);
 
-        // When service.updateSweet(1, info) is called, return result
         when(sweetService.updateSweet(any(Long.class), any(Sweet.class))).thenReturn(resultSweet);
 
-        // 2. Act & Assert
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put("/api/sweets/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updatedInfo)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Kaju Katli Special"))
                 .andExpect(jsonPath("$.price").value(120.0));
+    }
+
+    @Test
+    public void testDeleteSweet_Success() throws Exception {
+
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete("/api/sweets/{id}", 1L))
+                .andExpect(status().isNoContent());
+
+        org.mockito.Mockito.verify(sweetService).deleteSweet(1L);
     }
 }

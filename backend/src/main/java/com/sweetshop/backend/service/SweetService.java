@@ -38,4 +38,8 @@ public class SweetService {
         return sweetRepository.save(sweet);
     }
 
+    public void deleteSweet(Long id) {
+        //void
+    }
+
 }
