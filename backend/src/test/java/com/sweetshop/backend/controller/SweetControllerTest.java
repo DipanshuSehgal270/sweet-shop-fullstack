@@ -42,7 +42,7 @@ public class SweetControllerTest {
         mockMvc.perform(post("/api/sweets")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(sweet)))
-                .andExpect(status().isCreated()) // Expect 201 Created
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("Kaju Katli"));
     }
 }
