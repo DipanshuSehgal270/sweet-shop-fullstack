@@ -56,4 +56,10 @@ public class SweetController {
         return new ResponseEntity<>(updatedSweet, HttpStatus.OK);
     }
 
+    @PostMapping("/sweets/{id}/restock")
+    public ResponseEntity<Sweet> restockSweet(@PathVariable Long id, @RequestParam Integer amount) {
+        Sweet updatedSweet = sweetService.restockSweet(id, amount);
+        return new ResponseEntity<>(updatedSweet, HttpStatus.OK);
+    }
+
 }
