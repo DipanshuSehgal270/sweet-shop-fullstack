@@ -21,7 +21,7 @@ public class SweetService {
     }
 
     public java.util.List<Sweet> searchSweets(String name, String category, Double minPrice, Double maxPrice) {
-        return null;
+        return sweetRepository.searchSweets(name, category, minPrice, maxPrice);
     }
 
 }
