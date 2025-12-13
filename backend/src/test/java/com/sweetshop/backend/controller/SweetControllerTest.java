@@ -44,5 +44,6 @@ public class SweetControllerTest {
                         .content(objectMapper.writeValueAsString(sweet)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("Kaju Katli"));
+
     }
 }

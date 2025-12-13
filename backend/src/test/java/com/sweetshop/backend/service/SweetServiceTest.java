@@ -7,12 +7,21 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 public class SweetServiceTest {
+
+    @Autowired
+    private MockMvc mockMvc;
 
     @Mock
     private SweetRepository sweetRepository;
@@ -46,4 +55,25 @@ public class SweetServiceTest {
         assertEquals("images/gulab.jpg", result.getImageUrl());
     }
 
+    @Test
+    public void testGetAllSweets_Success() throws Exception {
+        // 1. Arrange
+        Sweet s1 = new Sweet();
+        s1.setId(1L);
+        s1.setName("Ladoo");
+
+        Sweet s2 = new Sweet();
+        s2.setId(2L);
+        s2.setName("Barfi");
+
+        java.util.List<Sweet> sweetList = java.util.Arrays.asList(s1, s2);
+
+        when(sweetService.getAllSweets()).thenReturn(sweetList);
+
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/sweets")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()").value(2))
+                .andExpect(jsonPath("$[0].name").value("Ladoo"));
+    }
 }
