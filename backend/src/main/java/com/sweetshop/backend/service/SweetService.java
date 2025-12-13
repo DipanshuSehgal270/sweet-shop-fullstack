@@ -19,4 +19,9 @@ public class SweetService {
     {
         return sweetRepository.findAll();
     }
+
+    public java.util.List<Sweet> searchSweets(String name, String category, Double minPrice, Double maxPrice) {
+        return null;
+    }
+
 }

@@ -9,6 +9,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
+
+import java.util.Arrays;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -67,5 +71,27 @@ public class SweetControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(2))
                 .andExpect(jsonPath("$[0].name").value("Ladoo"));
+    }
+
+    @Test
+    public void testSearchSweets_Complex() throws Exception {
+        // 1. Arrange
+        Sweet s1 = new Sweet();
+        s1.setName("Rasgulla");
+        s1.setCategory("Milk Based");
+        s1.setPrice(20.0);
+
+        List<Sweet> searchResults = Arrays.asList(s1);
+
+        when(sweetService.searchSweets(null, "Milk", null, 50.0))
+                .thenReturn(searchResults);
+
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/sweets/search")
+                        .param("category", "Milk")
+                        .param("maxPrice", "50.0")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()").value(1))
+                .andExpect(jsonPath("$[0].name").value("Rasgulla"));
     }
 }
