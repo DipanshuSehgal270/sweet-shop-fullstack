@@ -57,4 +57,8 @@ public class SweetService {
         return sweetRepository.save(sweet);
     }
 
+    public Sweet restockSweet(Long id, Integer amount) {
+        return null;
+    }
+
 }

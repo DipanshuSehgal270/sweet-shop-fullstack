@@ -140,4 +140,23 @@ public class SweetControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.quantity").value(9));
     }
+
+    @Test
+    public void testRestockSweet_Success() throws Exception {
+        // 1. Arrange
+        Sweet sweetAfterRestock = new Sweet();
+        sweetAfterRestock.setId(1L);
+        sweetAfterRestock.setName("Gulab Jamun");
+        sweetAfterRestock.setQuantity(50); // Was 0, added 50
+
+        // When restock is called with amount 50
+        when(sweetService.restockSweet(1L, 50)).thenReturn(sweetAfterRestock);
+
+        // 2. Act & Assert
+        mockMvc.perform(post("/api/sweets/{id}/restock", 1L)
+                        .param("amount", "50") // ?amount=50
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.quantity").value(50));
+    }
 }
