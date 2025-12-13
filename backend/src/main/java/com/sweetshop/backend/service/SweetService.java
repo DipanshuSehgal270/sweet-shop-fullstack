@@ -12,6 +12,6 @@ public class SweetService {
     private final SweetRepository sweetRepository;
 
     public Sweet addSweet(Sweet sweet) {
-        return null;
+        return sweetRepository.save(sweet);
     }
 }

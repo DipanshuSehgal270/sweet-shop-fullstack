@@ -1,5 +1,6 @@
 package com.sweetshop.backend.controller;
 
+import com.sweetshop.backend.entity.Sweet;
 import com.sweetshop.backend.service.SweetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +13,15 @@ public class SweetController {
 
     private final SweetService sweetService;
 
-//    @PostMapping("/sweets")
-//    private ResponseEntity<?> addSweet()
-//    {
-//
-//    }
+    @PostMapping("/sweets")
+    private String addSweet(Sweet sweet)
+    {
+        if(sweetService.addSweet(sweet)!=null)
+        {
+            return "Sucess";
+        }
+        else {
+            return "failed to add";
+        }
+    }
 }
