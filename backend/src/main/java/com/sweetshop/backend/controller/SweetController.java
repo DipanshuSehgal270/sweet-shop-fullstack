@@ -43,4 +43,10 @@ public class SweetController {
         Sweet updatedSweet = sweetService.updateSweet(id, sweetDetails);
         return new ResponseEntity<>(updatedSweet, HttpStatus.OK);
     }
+
+    @DeleteMapping("/sweets/{id}")
+    public ResponseEntity<Void> deleteSweet(@PathVariable Long id) {
+        sweetService.deleteSweet(id);
+        return ResponseEntity.noContent().build(); // Returns 204 No Content
+    }
 }
