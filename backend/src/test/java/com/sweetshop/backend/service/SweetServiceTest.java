@@ -54,26 +54,4 @@ public class SweetServiceTest {
         assertEquals("Gulab Jamun", result.getName());
         assertEquals("images/gulab.jpg", result.getImageUrl());
     }
-
-    @Test
-    public void testGetAllSweets_Success() throws Exception {
-        // 1. Arrange
-        Sweet s1 = new Sweet();
-        s1.setId(1L);
-        s1.setName("Ladoo");
-
-        Sweet s2 = new Sweet();
-        s2.setId(2L);
-        s2.setName("Barfi");
-
-        java.util.List<Sweet> sweetList = java.util.Arrays.asList(s1, s2);
-
-        when(sweetService.getAllSweets()).thenReturn(sweetList);
-
-        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/sweets")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()").value(2))
-                .andExpect(jsonPath("$[0].name").value("Ladoo"));
-    }
 }

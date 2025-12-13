@@ -24,7 +24,7 @@ public class SweetController {
     @GetMapping("/sweets")
     private ResponseEntity<java.util.List<Sweet>> getAllSweets()
     {
-        return null;
+        return new ResponseEntity<>(sweetService.getAllSweets(), HttpStatus.OK);
     }
 
 }

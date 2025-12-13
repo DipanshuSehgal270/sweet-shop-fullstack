@@ -17,6 +17,6 @@ public class SweetService {
 
     public java.util.List<Sweet> getAllSweets()
     {
-        return null;
+        return sweetRepository.findAll();
     }
 }
