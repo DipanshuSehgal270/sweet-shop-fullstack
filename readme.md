@@ -1,3 +1,13 @@
+# Project Images
+
+
+<img width="1913" height="916" alt="Screenshot 2025-12-14 221736" src="https://github.com/user-attachments/assets/1ada19d2-e15b-4eff-940b-f0acc7b49d04" />
+<img width="1919" height="910" alt="Screenshot 2025-12-14 221710" src="https://github.com/user-attachments/assets/038a1775-d01b-4748-9889-6370bebd7045" />
+<img width="1919" height="903" alt="Screenshot 2025-12-14 221439" src="https://github.com/user-attachments/assets/e2df2211-d8cd-4bb9-bac1-e8a502d64ff8" />
+<img width="1919" height="910" alt="Screenshot 2025-12-14 221549" src="https://github.com/user-attachments/assets/17e75b42-cd3a-442c-96be-549b5fd33221" />
+<img width="1917" height="913" alt="Screenshot 2025-12-14 221558" src="https://github.com/user-attachments/assets/c6088edf-9ebb-4426-b04d-bda6718db87f" />
+
+
 # 🍬 Sweet Shop Management System (Backend)
 
 A robust, enterprise-grade RESTful API designed to manage inventory, sales, and authentication for a modern Sweet Shop. Built using **Spring Boot 3.4** with a strict **Test-Driven Development (TDD)** methodology.
