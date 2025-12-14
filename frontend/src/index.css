@@ -1,0 +1,106 @@
+/* MINIMALIST PROFESSIONAL THEME - INTERACTIVE CARDS */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --bg-body: #fafafa;
+  --bg-card: #ffffff;
+  --text-primary: #111;
+  --text-secondary: #666;
+  --accent: #000000;
+  --accent-hover: #333333;
+  --border-light: #eaeaea;
+  --danger: #e02424;
+  --success: #10b981;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-body);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- NAVBAR --- */
+.navbar {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-light);
+  padding: 1rem 0;
+}
+
+.navbar-brand {
+  font-weight: 600; font-size: 1.25rem; letter-spacing: -0.5px; color: var(--text-primary) !important;
+}
+
+/* --- INTERACTIVE CARDS --- */
+.card {
+  border: 1px solid var(--border-light);
+  border-radius: 12px; /* Softer corners */
+  background: var(--bg-card);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02); /* Very subtle base shadow */
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth bouncy transition */
+  overflow: hidden; /* Keeps image zoom inside corners */
+  height: 100%;
+}
+
+/* THE "BULGE OUT" HOVER EFFECT */
+.card:hover {
+  transform: translateY(-7px) scale(1.02); /* Move up and grow slightly */
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1); /* Large, soft shadow */
+  border-color: transparent; /* Let the shadow define the edges */
+  z-index: 10; /* Ensure it pops over neighbors */
+}
+
+/* IMAGE ASPECT RATIO CONTROL (SQUARE) */
+.card-image-wrapper {
+    position: relative;
+    width: 100%;
+    /* This trick makes it a perfect square based on width */
+    padding-top: 100%; 
+    background-color: #f8f9fa;
+    border-bottom: 1px solid var(--border-light);
+    overflow: hidden;
+}
+
+.card-image-wrapper img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures image fills square without distortion */
+    transition: transform 0.5s ease; /* Slower smooth zoom on image */
+}
+
+/* Subtle zoom on the image itself when card hovers */
+.card:hover .card-image-wrapper img {
+    transform: scale(1.05);
+}
+
+/* --- CARD CONTENT PADDING --- */
+.card-body { padding: 1.25rem; }
+.card-footer { padding: 1.25rem; background: transparent; }
+
+/* --- TYPOGRAPHY & BADGES --- */
+.card-title { font-weight: 700; font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--text-primary); }
+.card-text { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; }
+
+.badge { font-weight: 600; font-size: 0.75rem; padding: 0.5em 0.9em; border-radius: 6px; letter-spacing: 0.5px;}
+.bg-success { background-color: #dcfce7 !important; color: #166534; } /* Pastel Green */
+.bg-danger { background-color: #fee2e2 !important; color: #991b1b; } /* Pastel Red */
+.bg-light { background-color: #f3f4f6 !important; color: #4b5563; border: 1px solid #e5e7eb; }
+
+/* --- BUTTONS & INPUTS (Standardized) --- */
+.btn { border-radius: 8px; font-weight: 600; font-size: 0.9rem; padding: 0.7rem 1.2rem; transition: all 0.2s; border: 1px solid transparent; }
+.btn-primary, .btn-success { background-color: var(--accent); border-color: var(--accent); color: white; }
+.btn-primary:hover, .btn-success:hover { background-color: var(--accent-hover); border-color: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.btn-outline-success { color: var(--accent); border-color: var(--border-light); background: white; }
+.btn-outline-success:hover { background-color: var(--accent); color: white; border-color: var(--accent); }
+.btn-danger { background-color: transparent; color: var(--danger); border: 1px solid rgba(224, 36, 36, 0.1); }
+.btn-danger:hover { background-color: var(--danger); color: white; }
+.form-control, .form-select { border: 1px solid var(--border-light); border-radius: 8px; padding: 0.8rem; box-shadow: none; }
+.form-control:focus { border-color: var(--text-secondary); box-shadow: 0 0 0 3px rgba(0,0,0,0.05); }
+.container { max-width: 1200px; }

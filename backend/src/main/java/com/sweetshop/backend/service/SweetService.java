@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -27,7 +28,7 @@ public class SweetService {
         return sweetRepository.findAll();
     }
 
-    public java.util.List<Sweet> searchSweets(String name, String category, Double minPrice, Double maxPrice) {
+    public List<Sweet> searchSweets(String name, String category, Double minPrice, Double maxPrice) {
         return sweetRepository.searchSweets(name, category, minPrice, maxPrice);
     }
 
@@ -64,8 +65,12 @@ public class SweetService {
         if (sweet.getQuantity() <= 0) {
             throw new RuntimeException("Sweet is out of stock!");
         }
+        else
+        {
+            sweet.setQuantity(sweet.getQuantity() - 1);
+            sweet.setSoldCount(sweet.getSoldCount() + 1);
+        }
 
-        sweet.setQuantity(sweet.getQuantity() - 1);
         return sweetRepository.save(sweet);
     }
 

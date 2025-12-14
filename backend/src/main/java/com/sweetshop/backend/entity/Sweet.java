@@ -24,6 +24,7 @@ public class Sweet {
     private String imageName;
     private String imageType;
     private String category;
+    private Integer soldCount = 0;
 
     @Min(value = 0, message = "Price must be positive")
     private double price;

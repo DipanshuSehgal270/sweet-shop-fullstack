@@ -53,4 +53,15 @@ public class AuthService {
         return jwtUtils.generateToken(request.getUsername());
     }
 
+    public java.util.List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public User promoteToAdmin(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setRole(com.sweetshop.backend.entity.Role.ADMIN);
+        return userRepository.save(user);
+    }
+
 }
