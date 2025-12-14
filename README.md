@@ -91,6 +91,13 @@ spring.application.security.jwt.EXPIRATION_TIME=86400000
 
 The server will start on http://localhost:8080.📖 API DocumentationOnce the server is running, access the interactive API documentation (Swagger UI):👉 http://localhost:8080/swagger-ui/index.htmlYou can test endpoints directly from the browser using the "Authorize" button to input your JWT token.🧪 Running TestsTo verify the TDD integrity and run the full test suite:Bash./mvnw test
 
-Test Coverage:AuthControllerTest: Registration & Login flows.SweetControllerTest: CRUD, Image Uploads, Search, Inventory.SweetServiceTest: Business logic and validations.🔒 Security EndpointsMethodEndpointDescriptionAccessPOST/api/auth/registerRegister a new user (Default Role: USER)PublicPOST/api/auth/loginLogin to receive JWT TokenPublicGET/api/sweetsView all sweetsPublicPOST/api/sweetsAdd new sweet (Multipart)Auth RequiredPUT/api/sweets/{id}Update details/imageAuth RequiredPOST/api/sweets/{id}/purchaseBuy a sweet (Decrements stock)Auth RequiredPOST/api/sweets/{id}/restockRestock inventoryADMIN OnlyDELETE/api/sweets/{id}Delete a sweetADMIN Only
+Test Coverage:AuthControllerTest: Registration & Login flows.SweetControllerTest: CRUD, Image Uploads, Search, Inventory.SweetServiceTest: Business logic and validations.
+🔒 Security EndpointsMethodEndpointDescriptionAccessPOST/api/auth/registerRegister a new user (Default Role: USER)
+PublicPOST/api/auth/loginLogin to receive JWT Token
+PublicGET/api/sweetsView all sweets
+PublicPOST/api/sweetsAdd new sweet (Multipart)Auth
+RequiredPUT/api/sweets/{id}Update details/imageAuth
+RequiredPOST/api/sweets/{id}/purchaseBuy a sweet (Decrements stock)Auth
+RequiredPOST/api/sweets/{id}/restockRestock inventoryADMIN OnlyDELETE/api/sweets/{id}Delete a sweetADMIN Only
 ```
 
