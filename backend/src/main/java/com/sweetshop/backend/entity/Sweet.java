@@ -17,7 +17,12 @@ public class Sweet {
     @NotBlank(message = "Name is required")
     private String name;
     private String description;
-    private String imageUrl;
+    //    private String imageUrl;
+    @Lob
+    @Column(length = 1000000)
+    private byte[] image;
+    private String imageName;
+    private String imageType;
     private String category;
 
     @Min(value = 0, message = "Price must be positive")
