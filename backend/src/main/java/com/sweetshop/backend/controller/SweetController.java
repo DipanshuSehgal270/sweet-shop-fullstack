@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tools.jackson.databind.ObjectMapper;
@@ -62,6 +63,7 @@ public class SweetController {
     }
 
     @DeleteMapping("/sweets/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteSweet(@PathVariable Long id) {
         sweetService.deleteSweet(id);
         return ResponseEntity.noContent().build();
@@ -74,6 +76,7 @@ public class SweetController {
     }
 
     @PostMapping("/sweets/{id}/restock")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Sweet> restockSweet(@PathVariable Long id, @RequestParam Integer amount) {
         Sweet updatedSweet = sweetService.restockSweet(id, amount);
         return new ResponseEntity<>(updatedSweet, HttpStatus.OK);
