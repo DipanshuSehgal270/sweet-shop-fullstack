@@ -148,4 +148,22 @@ public class SweetControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.quantity").value(50));
     }
+
+
+    @Test
+    public void testgetAllSweetsAtDiscountedPrice() throws Exception
+    {
+        Sweet s1 = new Sweet();
+        s1.setId(1L);
+        s1.setName("Gulab Jamun");
+        s1.setPrice(100.0);
+
+        when(sweetService.getAllSweets()).thenReturn(List.of(s1));
+
+        mockMvc.perform(get("/api/sweets"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].price").value(100.0));
+
+    }
+
 }

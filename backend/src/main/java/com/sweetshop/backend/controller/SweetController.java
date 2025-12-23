@@ -2,7 +2,7 @@ package com.sweetshop.backend.controller;
 
 import com.sweetshop.backend.entity.Sweet;
 import com.sweetshop.backend.service.SweetService;
-import org.springframework.beans.factory.annotation.Autowired; // <--- Import this
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,7 +24,6 @@ public class SweetController {
 
     @GetMapping
     public ResponseEntity<List<Sweet>> getAllSweets() {
-        System.out.println("Checking SweetService: " + sweetService);
         return new ResponseEntity<>(sweetService.getAllSweets(), HttpStatus.OK);
     }
 
@@ -88,5 +88,15 @@ public class SweetController {
     public ResponseEntity<Sweet> restockSweet(@PathVariable Long id, @RequestParam Integer amount) {
         Sweet updatedSweet = sweetService.restockSweet(id, amount);
         return new ResponseEntity<>(updatedSweet, HttpStatus.OK);
+    }
+
+    @GetMapping("/discount")
+    public List<Sweet> getAllSweetsAtDiscountedPrice()
+    {
+        // get discounted price of all sweets
+
+
+
+        return new ArrayList<>();
     }
 }

@@ -7,25 +7,41 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class SweetService {
 
     private final SweetRepository sweetRepository;
+    private static final double DISCOUNT = 10 ;
 
     public Sweet addSweet(Sweet sweet, MultipartFile file) throws IOException {
 
         sweet.setImageName(file.getOriginalFilename());
         sweet.setImageType(file.getContentType());
         sweet.setImage(file.getBytes());
-
         return sweetRepository.save(sweet);
     }
 
     public java.util.List<Sweet> getAllSweets()
     {
-        return sweetRepository.findAll();
+        List<Sweet> res = sweetRepository.findAll()
+                .stream()
+                .map(sweet -> discount(sweet,DISCOUNT))
+                .collect(Collectors.toList());
+        return res;
+    }
+
+    public Sweet discount(Sweet sweet,double DISCOUNT)
+    {
+        //created copy object to control dirty checking of real value in database.
+        Sweet copysweet = new Sweet();
+        copysweet.setId(sweet.getId());
+        copysweet.setQuantity(sweet.getQuantity());
+        copysweet.setName(sweet.getName());
+        copysweet.setPrice(sweet.getPrice()*((100.00-DISCOUNT)/100.00));
+        return copysweet;
     }
 
     public List<Sweet> searchSweets(String name, String category, Double minPrice, Double maxPrice) {
