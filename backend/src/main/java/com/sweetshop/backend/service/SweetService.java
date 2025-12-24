@@ -2,6 +2,7 @@ package com.sweetshop.backend.service;
 
 import com.sweetshop.backend.config.ModelMapperConfig;
 import com.sweetshop.backend.dto.SweetResponse;
+import com.sweetshop.backend.dto.trendingSweetResponse;
 import com.sweetshop.backend.entity.Sweet;
 import com.sweetshop.backend.exception.OutofStockException;
 import com.sweetshop.backend.repository.SweetRepository;
@@ -9,8 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -126,6 +129,26 @@ public class SweetService {
 
         return modelMapper.map(sweet,SweetResponse.class);
 
+    }
+
+    @Transactional(readOnly = true)
+    public List<Sweet> trendingSweets()
+    {
+        return new ArrayList<>(sweetRepository.findTop2ByOrderBySoldCountDescNameAsc());
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void purchaseBatch(List<Long> ids) {
+        for (Long id : ids) {
+            Sweet sweet = sweetRepository.findById(id).orElseThrow();
+            if (sweet.getQuantity() > 0) {
+                sweet.setQuantity(sweet.getQuantity() - 1);
+                sweet.setSoldCount(sweet.getSoldCount() + 1);
+                sweetRepository.save(sweet);
+            } else {
+                throw new RuntimeException("Sweet " + sweet.getName() + " is out of stock!");
+            }
+        }
     }
 
 }

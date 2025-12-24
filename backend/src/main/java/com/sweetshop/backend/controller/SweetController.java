@@ -1,10 +1,10 @@
 package com.sweetshop.backend.controller;
 
 import com.sweetshop.backend.dto.SweetResponse;
+import com.sweetshop.backend.dto.trendingSweetResponse;
 import com.sweetshop.backend.entity.Sweet;
 import com.sweetshop.backend.service.SweetService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -97,7 +98,22 @@ public class SweetController {
     {
         SweetResponse response = sweetService.checkQuantity(id);
         return new ResponseEntity<>(response,HttpStatus.OK);
+    }
 
+    @GetMapping("/trending")
+    public ResponseEntity<List<Sweet>> trendingSweets(){
+        List<Sweet>  response = new ArrayList<>(sweetService.trendingSweets());
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+    @PostMapping("/purchase/batch")
+    public ResponseEntity<String> purchaseBatch(@RequestBody List<Long> ids) {
+        try {
+            sweetService.purchaseBatch(ids);
+            return ResponseEntity.ok("Purchase successful");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 }

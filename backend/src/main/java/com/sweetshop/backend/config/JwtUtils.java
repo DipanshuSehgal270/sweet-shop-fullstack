@@ -4,10 +4,14 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtUtils {
@@ -22,11 +26,18 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
-    public String generateToken(String username) {
+    public String generateToken(Authentication authentication) {
+        String username = authentication.getName();
+
+        List<String> roles = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+
         return Jwts.builder()
-                .subject(username)
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .setSubject(username)
+                .claim("roles", roles)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + EXPIRATION_TIME))
                 .signWith(getSigningKey())
                 .compact();
     }

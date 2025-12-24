@@ -27,7 +27,7 @@ export const isAdmin = () => {
   
   try {
     const decoded = jwtDecode(token);
-    return decoded.roles && decoded.roles[0] === 'ROLE_ADMIN';
+    return decoded.roles && decoded.roles.includes('ROLE_ADMIN');
   } catch (error) {
     return false;
   }

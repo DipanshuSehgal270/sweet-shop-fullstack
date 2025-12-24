@@ -50,7 +50,7 @@ public class AuthService {
                 )
         );
 
-        return jwtUtils.generateToken(request.getUsername());
+        return jwtUtils.generateToken(authentication);
     }
 
     public java.util.List<User> getAllUsers() {

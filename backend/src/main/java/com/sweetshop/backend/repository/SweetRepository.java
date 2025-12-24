@@ -1,5 +1,6 @@
 package com.sweetshop.backend.repository;
 
+import com.sweetshop.backend.dto.trendingSweetResponse;
 import com.sweetshop.backend.entity.Sweet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,4 +28,7 @@ public interface SweetRepository extends JpaRepository<Sweet,Long> {
             @Param("minPrice") Double minPrice,
             @Param("maxPrice") Double maxPrice
     );
+
+    List<Sweet> findTop2ByOrderBySoldCountDescNameAsc();
+
 }

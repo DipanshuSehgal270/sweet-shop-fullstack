@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import { useCart } from '../context/CartContext';
-import { purchaseSweet } from '../services/sweetService';
+import { purchaseBatch } from '../services/sweetService';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import PaymentModal from '../components/PaymentModal';
@@ -9,17 +9,19 @@ import PaymentModal from '../components/PaymentModal';
 const CartPage = () => {
   const { cart, removeFromCart, clearCart } = useCart();
   const navigate = useNavigate();
-  const [showPayment, setShowPayment] = useState(false); // Controls the modal
+  const [showPayment, setShowPayment] = useState(false);
 
   const total = cart.reduce((sum, item) => sum + item.price, 0);
 
   const handlePaymentSuccess = async () => {
     try {
-      // Process each item in the cart
-      // In a real app, you would send the whole cart array to one backend endpoint
-      for (const item of cart) {
-        await purchaseSweet(item.id);
-      }
+      if (cart.length === 0) return;
+
+      // Extract all IDs from cart
+      const sweetIds = cart.map(item => item.id);
+      
+      // SEND ONE BATCH REQUEST
+      await purchaseBatch(sweetIds);
       
       clearCart();
       setShowPayment(false);
@@ -114,7 +116,7 @@ const CartPage = () => {
           </div>
         </div>
 
-        {/* PAYMENT MODAL (Only shows when showPayment is true) */}
+        {/* PAYMENT MODAL */}
         {showPayment && (
             <PaymentModal 
                 total={total} 
