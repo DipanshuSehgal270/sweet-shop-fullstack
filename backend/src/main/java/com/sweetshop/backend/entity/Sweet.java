@@ -31,8 +31,5 @@ public class Sweet {
     @Min(value = 0, message = "Quantity cannot be negative")
     private int quantity;
 
-    //dicount
-
-    ///  discount get method  save that price of discount int the database .
 
 }

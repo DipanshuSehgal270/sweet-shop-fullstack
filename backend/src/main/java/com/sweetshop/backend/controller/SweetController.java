@@ -1,7 +1,9 @@
 package com.sweetshop.backend.controller;
 
+import com.sweetshop.backend.dto.SweetResponse;
 import com.sweetshop.backend.entity.Sweet;
 import com.sweetshop.backend.service.SweetService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,16 +13,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/sweets")
 @CrossOrigin(origins = "http://localhost:5174")
+@RequiredArgsConstructor
 public class SweetController {
 
-    @Autowired
-    private SweetService sweetService;
+    private final SweetService sweetService;
 
     @GetMapping
     public ResponseEntity<List<Sweet>> getAllSweets() {
@@ -90,13 +91,13 @@ public class SweetController {
         return new ResponseEntity<>(updatedSweet, HttpStatus.OK);
     }
 
-    @GetMapping("/discount")
-    public List<Sweet> getAllSweetsAtDiscountedPrice()
+    @GetMapping("/stock/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<SweetResponse> checkStock(@PathVariable Long id)
     {
-        // get discounted price of all sweets
+        SweetResponse response = sweetService.checkQuantity(id);
+        return new ResponseEntity<>(response,HttpStatus.OK);
 
-
-
-        return new ArrayList<>();
     }
+
 }

@@ -1,8 +1,13 @@
 package com.sweetshop.backend.service;
 
+import com.sweetshop.backend.config.ModelMapperConfig;
+import com.sweetshop.backend.dto.SweetResponse;
 import com.sweetshop.backend.entity.Sweet;
+import com.sweetshop.backend.exception.OutofStockException;
 import com.sweetshop.backend.repository.SweetRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -14,7 +19,10 @@ import java.util.stream.Collectors;
 public class SweetService {
 
     private final SweetRepository sweetRepository;
-    private static final double DISCOUNT = 10 ;
+    public final ModelMapper modelMapper;
+
+    @Value("${spring.application.discount}")
+    private double discount;
 
     public Sweet addSweet(Sweet sweet, MultipartFile file) throws IOException {
 
@@ -24,11 +32,11 @@ public class SweetService {
         return sweetRepository.save(sweet);
     }
 
-    public java.util.List<Sweet> getAllSweets()
+    public List<Sweet> getAllSweets()
     {
         List<Sweet> res = sweetRepository.findAll()
                 .stream()
-                .map(sweet -> discount(sweet,DISCOUNT))
+                .map(sweet -> discount(sweet,discount))
                 .collect(Collectors.toList());
         return res;
     }
@@ -105,6 +113,19 @@ public class SweetService {
     public Sweet getSweetById(Long id) {
         return sweetRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Sweet not found"));
+    }
+
+    public SweetResponse checkQuantity(Long id)
+    {
+        Sweet sweet = getSweetById(id);
+
+        if(sweet.getQuantity() <= 0)
+        {
+            throw new OutofStockException("No quantity left. Please restock.");
+        }
+
+        return modelMapper.map(sweet,SweetResponse.class);
+
     }
 
 }

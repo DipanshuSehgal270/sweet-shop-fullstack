@@ -43,4 +43,16 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(OutofStockException.class)
+    public ResponseEntity<Map<String,Object>> handleoutOfStockException(OutofStockException ex)
+    {
+        Map<String,Object> error = new HashMap<>();
+        error.put("timestamp", LocalDateTime.now());
+        error.put("message", "product is out of Stock");
+        System.err.println("Error: " + ex.getMessage());
+        error.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+
+        return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
+    }
 }

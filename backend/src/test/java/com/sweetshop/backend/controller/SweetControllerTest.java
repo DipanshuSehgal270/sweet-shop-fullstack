@@ -149,9 +149,8 @@ public class SweetControllerTest {
                 .andExpect(jsonPath("$.quantity").value(50));
     }
 
-
     @Test
-    public void testgetAllSweetsAtDiscountedPrice() throws Exception
+    public void test_getAllSweets() throws Exception
     {
         Sweet s1 = new Sweet();
         s1.setId(1L);
