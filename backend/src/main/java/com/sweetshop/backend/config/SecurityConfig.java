@@ -35,8 +35,6 @@ public class SecurityConfig {
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated()
                 )
-//                .formLogin(form -> form.disable()) // Disable HTML login page redirect
-//                .httpBasic(basic -> basic.disable()) // Disable browser popup login
                 .addFilterBefore(jwtAuthenticationFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

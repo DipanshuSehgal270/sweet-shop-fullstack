@@ -14,7 +14,7 @@ public class Sweet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Name is required")
+    @Column(nullable = false)
     private String name;
     private String description;
     //    private String imageUrl;

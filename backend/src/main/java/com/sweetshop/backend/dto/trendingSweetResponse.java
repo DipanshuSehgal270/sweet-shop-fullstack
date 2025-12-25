@@ -10,9 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class trendingSweetResponse {
-
-    @NotBlank
     private String name;
-    @NotNull
     private Double price;
 }
