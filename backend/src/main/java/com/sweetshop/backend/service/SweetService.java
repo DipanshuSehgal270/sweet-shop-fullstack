@@ -4,7 +4,9 @@ import com.sweetshop.backend.config.ModelMapperConfig;
 import com.sweetshop.backend.dto.SweetResponse;
 import com.sweetshop.backend.dto.trendingSweetResponse;
 import com.sweetshop.backend.entity.Sweet;
+import com.sweetshop.backend.exception.InvalidRestockAmountException;
 import com.sweetshop.backend.exception.OutofStockException;
+import com.sweetshop.backend.exception.SweetNotFoundException;
 import com.sweetshop.backend.repository.SweetRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -61,7 +63,7 @@ public class SweetService {
 
     public Sweet updateSweet(Long id, Sweet sweetDetails, MultipartFile file) throws IOException {
         Sweet sweet = sweetRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Sweet not found"));
+                .orElseThrow(() -> new SweetNotFoundException(id));
 
         sweet.setName(sweetDetails.getName());
         sweet.setPrice(sweetDetails.getPrice());
@@ -80,7 +82,7 @@ public class SweetService {
 
     public void deleteSweet(Long id) {
         if (!sweetRepository.existsById(id)) {
-            throw new RuntimeException("Sweet not found with id: " + id);
+            throw new SweetNotFoundException(id);
         }
         sweetRepository.deleteById(id);
     }
@@ -90,7 +92,7 @@ public class SweetService {
                 .orElseThrow(() -> new RuntimeException("Sweet not found with id: " + id));
 
         if (sweet.getQuantity() <= 0) {
-            throw new RuntimeException("Sweet is out of stock!");
+            throw new OutofStockException("Sweet is out of Stock");
         }
         else
         {
@@ -106,7 +108,7 @@ public class SweetService {
                 .orElseThrow(() -> new RuntimeException("Sweet not found with id: " + id));
 
         if (amount <= 0) {
-            throw new RuntimeException("Restock amount must be positive");
+            throw new InvalidRestockAmountException();
         }
 
         sweet.setQuantity(sweet.getQuantity() + amount);
@@ -124,7 +126,7 @@ public class SweetService {
 
         if(sweet.getQuantity() <= 0)
         {
-            throw new OutofStockException("No quantity left. Please restock.");
+            throw new OutofStockException("No Quantity left, Please Restock");
         }
 
         return modelMapper.map(sweet,SweetResponse.class);
@@ -146,7 +148,7 @@ public class SweetService {
                 sweet.setSoldCount(sweet.getSoldCount() + 1);
                 sweetRepository.save(sweet);
             } else {
-                throw new RuntimeException("Sweet " + sweet.getName() + " is out of stock!");
+                throw new OutofStockException("Sweet " + sweet.getName() + " is out of stock!");
             }
         }
     }

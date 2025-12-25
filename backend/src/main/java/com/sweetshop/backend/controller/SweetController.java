@@ -1,7 +1,6 @@
 package com.sweetshop.backend.controller;
 
 import com.sweetshop.backend.dto.SweetResponse;
-import com.sweetshop.backend.dto.trendingSweetResponse;
 import com.sweetshop.backend.entity.Sweet;
 import com.sweetshop.backend.service.SweetService;
 import lombok.RequiredArgsConstructor;
@@ -108,12 +107,8 @@ public class SweetController {
 
     @PostMapping("/purchase/batch")
     public ResponseEntity<String> purchaseBatch(@RequestBody List<Long> ids) {
-        try {
-            sweetService.purchaseBatch(ids);
-            return ResponseEntity.ok("Purchase successful");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        sweetService.purchaseBatch(ids);
+        return ResponseEntity.ok("Purchase successful");
     }
 
 }
