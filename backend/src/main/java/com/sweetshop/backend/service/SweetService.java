@@ -1,8 +1,6 @@
 package com.sweetshop.backend.service;
 
-import com.sweetshop.backend.config.ModelMapperConfig;
 import com.sweetshop.backend.dto.SweetResponse;
-import com.sweetshop.backend.dto.trendingSweetResponse;
 import com.sweetshop.backend.entity.Sweet;
 import com.sweetshop.backend.exception.InvalidRestockAmountException;
 import com.sweetshop.backend.exception.OutofStockException;
